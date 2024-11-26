@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:fluttalk/model/chat_response.dart';
 import 'package:fluttalk/model/chats_response.dart';
+import 'package:fluttalk/model/message_response.dart';
 import 'package:fluttalk/model/user_response.dart';
 import 'package:fluttalk/model/users_response.dart';
+import 'package:fluttalk/presentation/notifiers/repositories_notifier.dart';
 
 class UrlHolder {
   final String local;
@@ -24,6 +26,7 @@ enum UrlTypes {
   createChat,
   getMe,
   updateMe,
+  sendMessage,
 }
 
 class UrlConfig {
@@ -59,11 +62,15 @@ class UrlConfig {
       local: "http://127.0.0.1:5001/fluttalk/us-central1/updateMe",
       prod: "https://updateme-cwpwobd65q-uc.a.run.app",
     ),
+    UrlTypes.sendMessage: UrlHolder(
+      local: "http://127.0.0.1:5001/fluttalk/us-central1/sendMessage",
+      prod: "https://updateme-cwpwobd65q-uc.a.run.app",
+    ),
   };
   String getUrl(UrlTypes type) => urls[type]?.getUrl(isLocal);
 }
 
-class FirebaseRepository {
+class FirebaseRepository implements Repository {
   final Dio dio;
   final UrlConfig urlConfig;
   FirebaseRepository({
@@ -140,5 +147,14 @@ class FirebaseRepository {
       data: {"name": name},
     );
     return UserResponse.fromJson(response.data);
+  }
+
+  Future<MessageResponse> sendMessage(String chatId, String content) async {
+    final response = await dio.post(
+      urlConfig.getUrl(UrlTypes.sendMessage),
+      options: await _getOptions(),
+      data: {"chatId": chatId, "content": content},
+    );
+    return MessageResponse.fromJson(response.data);
   }
 }

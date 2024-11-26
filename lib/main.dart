@@ -9,6 +9,7 @@ import 'package:fluttalk/model/profile_model.dart';
 import 'package:fluttalk/presentation/notifiers/chats_model_notifier.dart';
 import 'package:fluttalk/presentation/notifiers/friends_model_notifier.dart';
 import 'package:fluttalk/presentation/notifiers/profile_model_notifier.dart';
+import 'package:fluttalk/presentation/notifiers/repositories_notifier.dart';
 import 'package:fluttalk/presentation/screens/auth_state_screen.dart';
 import 'package:fluttalk/presentation/screens/welcome_screen.dart';
 import 'package:fluttalk/presentation/theme/my_theme.dart';
@@ -29,21 +30,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseRepository = FirebaseRepository(
       dio: Dio(),
-      urlConfig: UrlConfig(isLocal: false),
+      urlConfig: UrlConfig(isLocal: true),
     );
 
-    return ProfileModelNotifier(
-      notifier: ProfileModel(repository: firebaseRepository),
-      child: FriendsModelNotifier(
-        notifier: FriendsModel(repository: firebaseRepository),
-        child: ChatsModelNotifier(
-          notifier: ChatsModel(repository: firebaseRepository),
-          child: MaterialApp(
-            theme: MyTheme.light(),
-            debugShowCheckedModeBanner: false,
-            home: FirebaseAuth.instance.currentUser != null
-                ? const AuthStateScreen()
-                : const WelcomeScreen(),
+    return RepositoriesNotifier(
+      notifier: Repositories(repositories: [
+        firebaseRepository,
+      ]),
+      child: ProfileModelNotifier(
+        notifier: ProfileModel(repository: firebaseRepository),
+        child: FriendsModelNotifier(
+          notifier: FriendsModel(repository: firebaseRepository),
+          child: ChatsModelNotifier(
+            notifier: ChatsModel(repository: firebaseRepository),
+            child: MaterialApp(
+              theme: MyTheme.light(),
+              debugShowCheckedModeBanner: false,
+              home: FirebaseAuth.instance.currentUser != null
+                  ? const AuthStateScreen()
+                  : const WelcomeScreen(),
+            ),
           ),
         ),
       ),

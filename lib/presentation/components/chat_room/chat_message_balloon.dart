@@ -1,14 +1,16 @@
 import 'dart:math';
+import 'package:fluttalk/model/message.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageBalloon extends StatelessWidget {
-  // final Message message;
+  final Message message;
   // final User user;
   final bool isUsers;
   const ChatMessageBalloon({
     required this.isUsers,
+    required this.message,
     super.key,
   });
 
@@ -34,7 +36,7 @@ class ChatMessageBalloon extends StatelessWidget {
               ),
             ),
             child: Text(
-              "일이삼사오육칠팔구십" * (Random().nextInt(20) + 1),
+              message.content,
               softWrap: true,
               style: MyTextStyles.bodyText2.copyWith(
                 color:

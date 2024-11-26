@@ -1,10 +1,16 @@
 import 'package:fluttalk/gen/assets.gen.dart';
+import 'package:fluttalk/model/chat.dart';
 import 'package:fluttalk/presentation/components/common/common_text_field.dart';
+import 'package:fluttalk/presentation/notifiers/chat_model_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomMessageTextField extends StatefulWidget {
-  const ChatRoomMessageTextField({super.key});
+  final Chat chat;
+  const ChatRoomMessageTextField({
+    super.key,
+    required this.chat,
+  });
 
   @override
   State<ChatRoomMessageTextField> createState() =>
@@ -30,6 +36,11 @@ class _ChatRoomMessageTextFieldState extends State<ChatRoomMessageTextField> {
     setState(() {
       _canSend = _textEditingController.text.isNotEmpty;
     });
+  }
+
+  _sendMessage(BuildContext context) async {
+    final chatModel = ChatModelNotifier.read(context);
+    await chatModel.sendMessage(widget.chat.id, _textEditingController.text);
   }
 
   @override
@@ -69,7 +80,7 @@ class _ChatRoomMessageTextFieldState extends State<ChatRoomMessageTextField> {
                   ),
                   const SizedBox(width: 12),
                   InkWell(
-                    onTap: _canSend ? () {} : null,
+                    onTap: _canSend ? () => _sendMessage(context) : null,
                     child: Assets.icons.sendAltFilledLight.image(
                       scale: 2,
                       color: MyColors.brandDefault

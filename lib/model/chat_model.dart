@@ -1,28 +1,19 @@
 import 'package:fluttalk/model/firebase_repository.dart';
+import 'package:fluttalk/model/message.dart';
 import 'package:flutter/material.dart';
 
 class ChatModel extends ChangeNotifier {
-  // Queue<Chat> _chats = Queue();
-  bool _isLoaded = false;
+  final List<Message> _messages = [];
   final FirebaseRepository repository;
 
   ChatModel({required this.repository});
 
-  // Chat get(int index) {
-  //   return _chats.elementAt(index);
-  // }
+  int get count => _messages.length;
+  Message get(int index) => _messages.elementAt(index);
 
-  // load() async {
-  //   final chatsResponse = await repository.getChats();
-  //   _chats = Queue.from(chatsResponse.chats);
-  //   _isLoaded = true;
-  //   notifyListeners();
-  // }
-
-  // Future<Chat> create(User user, String title) async {
-  //   final chatResponse = await repository.createChat(user.email, title);
-  //   _chats.add(chatResponse.chat);
-  //   notifyListeners();
-  //   return chatResponse.chat;
-  // }
+  sendMessage(String chatId, String content) async {
+    final messageResponse = await repository.sendMessage(chatId, content);
+    _messages.add(messageResponse.message);
+    notifyListeners();
+  }
 }
