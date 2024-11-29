@@ -1,6 +1,6 @@
+import 'package:fluttalk/business/inherited_notifier/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/common/bottom_navigation_items.dart';
 import 'package:fluttalk/presentation/components/home_bottom_navigation_bar.dart';
-import 'package:fluttalk/presentation/notifiers/profile_model_notifier.dart';
 import 'package:fluttalk/presentation/screens/friend_list_screen.dart';
 import 'package:fluttalk/presentation/screens/chat_list_screen.dart';
 import 'package:fluttalk/presentation/screens/more_screen.dart';
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileModel = ProfileModelNotifier.read(context);
+      final profileModel = UserInheritedNotifier.read(context);
       profileModel.load();
     });
   }

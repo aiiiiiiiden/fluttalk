@@ -1,12 +1,12 @@
-import 'package:fluttalk/model/user.dart';
+import 'package:fluttalk/data/user.dart';
+import 'package:fluttalk/business/inherited_notifier/chats_inherited_notifier.dart';
+import 'package:fluttalk/business/inherited_notifier/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/common/enums.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/edit_chat_title_bottom_sheet.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/select_friend_action_bottom_sheet.dart';
 import 'package:fluttalk/presentation/components/friend_list/friend_list_item.dart';
 import 'package:fluttalk/presentation/components/common/search_text_field.dart';
 import 'package:fluttalk/presentation/components/friend_list/friend_list_sliver_app_bar.dart';
-import 'package:fluttalk/presentation/notifiers/chats_model_notifier.dart';
-import 'package:fluttalk/presentation/notifiers/friends_model_notifier.dart';
 import 'package:fluttalk/presentation/screens/chat_room_screen.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
@@ -20,13 +20,13 @@ class FriendListScreen extends StatefulWidget {
 }
 
 class _FriendListScreenState extends State<FriendListScreen> {
+  final textEditingController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final friendsModel = FriendsModelNotifier.read(context);
-      friendsModel.load();
+      FriendsInheritedNotifier.read(context).load();
     });
   }
 
@@ -38,8 +38,8 @@ class _FriendListScreenState extends State<FriendListScreen> {
           SelectFriendActionBottomSheet(user: user),
     );
     if (result == FriendAction.delete && context.mounted) {
-      final friendsModel = FriendsModelNotifier.read(context);
-      await friendsModel.remove(user.email);
+      final friendsChangeNotifier = FriendsInheritedNotifier.read(context);
+      await friendsChangeNotifier.remove(user.email);
     } else if (result == FriendAction.chat && context.mounted) {
       final title = await showModalBottomSheet<String>(
         context: context,
@@ -53,18 +53,20 @@ class _FriendListScreenState extends State<FriendListScreen> {
   }
 
   _createChat(BuildContext context, User user, String title) async {
-    final chatsModel = ChatsModelNotifier.read(context);
-    final createdChat = await chatsModel.create(user, title);
+    final chatsChangeNotifier = ChatsInheritedNotifier.read(context);
+    final chatChangeNotifier = await chatsChangeNotifier.create(user, title);
     if (context.mounted) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ChatRoomScreen(chat: createdChat),
+        builder: (context) => ChatRoomScreen(
+          chatChangeNotifier: chatChangeNotifier,
+        ),
       ));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final friendsModel = FriendsModelNotifier.watch(context);
+    final friendsChangeNotifier = FriendsInheritedNotifier.watch(context);
     return CustomScrollView(
       slivers: [
         const FriendListSliverAppBar(),
@@ -75,17 +77,17 @@ class _FriendListScreenState extends State<FriendListScreen> {
                   padding: const EdgeInsets.only(
                       left: 24, right: 24, top: 16, bottom: 8),
                   placeholder: "검색할 친구 정보를 입력하세요.",
-                  onChangedText: (text) {},
+                  controller: textEditingController,
                 ),
               _ => FriendListItem(
-                  user: friendsModel.get(index - 1),
+                  user: friendsChangeNotifier.get(index - 1),
                   onTap: (user) => _showChatRoom(context, user),
                 ),
             },
-            childCount: friendsModel.friendsCount + 1,
+            childCount: friendsChangeNotifier.friendsCount + 1,
           ),
         ),
-        if (friendsModel.isLoaded && friendsModel.isNotExist)
+        if (friendsChangeNotifier.isLoaded && friendsChangeNotifier.isNotExist)
           SliverFillRemaining(
             child: Center(
               child: Text(

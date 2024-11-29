@@ -1,14 +1,14 @@
-import 'package:fluttalk/model/user.dart';
-import 'package:fluttalk/model/firebase_repository.dart';
+import 'package:fluttalk/data/user.dart';
+import 'package:fluttalk/data/repository/firebase_function_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class FriendsModel extends ChangeNotifier {
+class FriendsChangeNotifier extends ChangeNotifier {
   List<User> _friends = [];
   bool _isLoaded = false;
-  final FirebaseRepository repository;
+  final FirebaseFunctionRepository repository;
 
-  FriendsModel({required this.repository});
+  FriendsChangeNotifier({required this.repository});
 
   List<User> get friends => _friends;
   int get friendsCount => _friends.length;

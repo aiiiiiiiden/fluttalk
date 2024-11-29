@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/chat.dart';
+import 'package:fluttalk/data/chat.dart';
 
 class ChatResponse {
   final Chat chat;

@@ -1,9 +1,9 @@
-import 'package:fluttalk/gen/assets.gen.dart';
+import 'package:fluttalk/business/inherited_notifier/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/common/common_text_field.dart';
 import 'package:fluttalk/presentation/components/common/custom_button.dart';
-import 'package:fluttalk/presentation/notifiers/profile_model_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttalk/gen/assets.gen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _textEditingController.addListener(_onChangedName);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileModel = ProfileModelNotifier.read(context);
+      final profileModel = UserInheritedNotifier.read(context);
       _textEditingController.text = profileModel.user?.displayName ?? "";
       canSave = _textEditingController.text.isNotEmpty;
     });
@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _save(BuildContext context) async {
-    final profileModel = ProfileModelNotifier.read(context);
+    final profileModel = UserInheritedNotifier.read(context);
     await profileModel.update(_textEditingController.text);
     if (context.mounted) {
       Navigator.of(context).pop();

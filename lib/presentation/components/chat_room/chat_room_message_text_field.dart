@@ -1,7 +1,7 @@
 import 'package:fluttalk/gen/assets.gen.dart';
-import 'package:fluttalk/model/chat.dart';
+import 'package:fluttalk/data/chat.dart';
+import 'package:fluttalk/business/inherited_notifier/chat_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/common/common_text_field.dart';
-import 'package:fluttalk/presentation/notifiers/chat_model_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +39,12 @@ class _ChatRoomMessageTextFieldState extends State<ChatRoomMessageTextField> {
   }
 
   _sendMessage(BuildContext context) async {
-    final chatModel = ChatModelNotifier.read(context);
-    await chatModel.sendMessage(widget.chat.id, _textEditingController.text);
+    final chatChangeNotifier = ChatInheritedNotifier.read(context);
+    await chatChangeNotifier.sendMessage(
+        widget.chat.id, _textEditingController.text);
+    setState(() {
+      _textEditingController.text = "";
+    });
   }
 
   @override
@@ -83,8 +87,9 @@ class _ChatRoomMessageTextFieldState extends State<ChatRoomMessageTextField> {
                     onTap: _canSend ? () => _sendMessage(context) : null,
                     child: Assets.icons.sendAltFilledLight.image(
                       scale: 2,
-                      color: MyColors.brandDefault
-                          .withOpacity(_canSend ? 1.0 : 0.5),
+                      color: MyColors.brandDefault.withOpacity(
+                        _canSend ? 1.0 : 0.5,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),

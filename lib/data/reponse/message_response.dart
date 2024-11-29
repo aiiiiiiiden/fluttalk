@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/message.dart';
+import 'package:fluttalk/data/message.dart';
 
 class MessageResponse {
   final Message message;

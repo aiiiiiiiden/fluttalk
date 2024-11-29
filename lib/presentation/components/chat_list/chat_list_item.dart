@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/chat.dart';
+import 'package:fluttalk/data/chat.dart';
 import 'package:fluttalk/presentation/components/common/item_titles.dart';
 import 'package:fluttalk/presentation/components/chat_list/chat_list_item_metadata.dart';
 import 'package:fluttalk/presentation/components/common/profile_thumbnail.dart';

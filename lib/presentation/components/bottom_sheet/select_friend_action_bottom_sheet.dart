@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/user.dart';
+import 'package:fluttalk/data/user.dart';
 import 'package:fluttalk/presentation/common/enums.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/custom_sliver_header_delegate.dart';
 import 'package:fluttalk/presentation/components/common/custom_button.dart';

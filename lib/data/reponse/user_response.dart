@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/user.dart';
+import 'package:fluttalk/data/user.dart';
 
 class UserResponse {
   final User user;
