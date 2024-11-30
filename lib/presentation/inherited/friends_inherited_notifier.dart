@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/change_notifier/friends_change_notifier.dart';
+import 'package:fluttalk/ambiguous/friends_change_notifier.dart';
 import 'package:flutter/material.dart';
 
 class FriendsInheritedNotifier

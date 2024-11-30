@@ -1,9 +1,9 @@
 import 'package:fluttalk/data/chat.dart';
 import 'package:fluttalk/data/user.dart';
 import 'package:fluttalk/data/repository/firebase_function_repository.dart';
-import 'package:fluttalk/business/change_notifier/chat_change_notifier.dart';
-import 'package:fluttalk/business/inherited_notifier/chats_inherited_notifier.dart';
-import 'package:fluttalk/business/inherited_notifier/repositories_inherited_notifier.dart';
+import 'package:fluttalk/ambiguous/repositories_inherited_model.dart';
+import 'package:fluttalk/ambiguous/chat_change_notifier.dart';
+import 'package:fluttalk/presentation/inherited/chats_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/chat_list/chat_list_item.dart';
 import 'package:fluttalk/presentation/components/chat_list/chat_list_sliver_app_bar.dart';
 import 'package:fluttalk/presentation/components/common/search_text_field.dart';
@@ -25,21 +25,20 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final chatsChangeNotifier = ChatsInheritedNotifier.read(context);
-      chatsChangeNotifier.load();
+      ChatsInheritedNotifier.read(context).load();
     });
   }
 
   _onSelect(BuildContext context, Chat chat) async {
-    final chatModel = await ChatChangeNotifier.create(
+    final chatChangeNotifier = await ChatChangeNotifier.create(
       chat,
-      RepositoriesInheritedNotifier.get<FirebaseFunctionRepository>(context),
+      RepositoriesInheritedModel.of<FirebaseFunctionRepository>(context),
     );
     if (context.mounted) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) {
           return ChatRoomScreen(
-            chatChangeNotifier: chatModel,
+            chatChangeNotifier: chatChangeNotifier,
           );
         },
       ));
@@ -47,12 +46,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   _createChat(BuildContext context, User user, String title) async {
-    final chatsChangeNotifier = ChatsInheritedNotifier.read(context);
-    final chatChangeNotifier = await chatsChangeNotifier.create(user, title);
+    final chatChangeNotifier =
+        await ChatsInheritedNotifier.read(context).create(user, title);
     if (context.mounted) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            ChatRoomScreen(chatChangeNotifier: chatChangeNotifier),
+        builder: (context) => ChatRoomScreen(
+          chatChangeNotifier: chatChangeNotifier,
+        ),
       ));
     }
   }
@@ -90,7 +90,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
             childCount: chatsChangeNotifier.chatsCount + 1,
           ),
         ),
-        if (chatsChangeNotifier.isLoaded && chatsChangeNotifier.isNotExist)
+        if (chatsChangeNotifier.isNotExist)
           SliverFillRemaining(
             child: Center(
               child: Text(

@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/inherited_notifier/friends_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/custom_sliver_header_delegate.dart';
 import 'package:fluttalk/presentation/components/friend_list/friend_list_item.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';

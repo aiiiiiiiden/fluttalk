@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/change_notifier/chats_change_notifier.dart';
+import 'package:fluttalk/ambiguous/chats_change_notifier.dart';
 import 'package:flutter/material.dart';
 
 class ChatsInheritedNotifier extends InheritedNotifier<ChatsChangeNotifier> {

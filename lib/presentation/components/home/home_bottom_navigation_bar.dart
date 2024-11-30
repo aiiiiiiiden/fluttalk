@@ -1,4 +1,4 @@
-import 'package:fluttalk/presentation/common/bottom_navigation_items.dart';
+import 'package:fluttalk/presentation/components/home/bottom_navigation_items.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -6,12 +6,12 @@ import 'package:collection/collection.dart';
 
 class HomeBottonNavigationBar extends StatelessWidget {
   static const _navigationItems = [
-    BottomNavigationItems.friendList,
-    BottomNavigationItems.chatList,
-    BottomNavigationItems.more,
+    HomeBottomNavigationItems.friendList,
+    HomeBottomNavigationItems.chatList,
+    HomeBottomNavigationItems.more,
   ];
 
-  final ValueNotifier<BottomNavigationItems> navigationItemNotifier;
+  final ValueNotifier<HomeBottomNavigationItems> navigationItemNotifier;
   const HomeBottonNavigationBar(this.navigationItemNotifier, {super.key});
 
   get _selectedIndex => navigationItemNotifier.value;

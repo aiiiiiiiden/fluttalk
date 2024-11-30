@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/change_notifier/user_change_notifier.dart';
+import 'package:fluttalk/ambiguous/user_change_notifier.dart';
 import 'package:flutter/material.dart';
 
 class UserInheritedNotifier extends InheritedNotifier<UserChangeNotifier> {

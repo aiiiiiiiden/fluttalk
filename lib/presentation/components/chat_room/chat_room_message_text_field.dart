@@ -1,6 +1,6 @@
 import 'package:fluttalk/gen/assets.gen.dart';
 import 'package:fluttalk/data/chat.dart';
-import 'package:fluttalk/business/inherited_notifier/chat_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/chat_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/common/common_text_field.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,9 @@ class _ChatRoomMessageTextFieldState extends State<ChatRoomMessageTextField> {
   _sendMessage(BuildContext context) async {
     final chatChangeNotifier = ChatInheritedNotifier.read(context);
     await chatChangeNotifier.sendMessage(
-        widget.chat.id, _textEditingController.text);
+      widget.chat.id,
+      _textEditingController.text,
+    );
     setState(() {
       _textEditingController.text = "";
     });

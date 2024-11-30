@@ -1,5 +1,5 @@
-import 'package:fluttalk/business/change_notifier/chat_change_notifier.dart';
-import 'package:fluttalk/business/inherited_notifier/chat_inherited_notifier.dart';
+import 'package:fluttalk/ambiguous/chat_change_notifier.dart';
+import 'package:fluttalk/presentation/inherited/chat_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/chat_list/chat_scroll_view.dart';
 import 'package:fluttalk/presentation/components/chat_room/chat_room_message_text_field.dart';
 import 'package:flutter/material.dart';

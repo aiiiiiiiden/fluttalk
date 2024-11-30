@@ -1,6 +1,6 @@
 import 'package:fluttalk/data/user.dart';
-import 'package:fluttalk/business/inherited_notifier/chats_inherited_notifier.dart';
-import 'package:fluttalk/business/inherited_notifier/friends_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/chats_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/common/enums.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/edit_chat_title_bottom_sheet.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/select_friend_action_bottom_sheet.dart';
@@ -53,8 +53,8 @@ class _FriendListScreenState extends State<FriendListScreen> {
   }
 
   _createChat(BuildContext context, User user, String title) async {
-    final chatsChangeNotifier = ChatsInheritedNotifier.read(context);
-    final chatChangeNotifier = await chatsChangeNotifier.create(user, title);
+    final chatChangeNotifier =
+        await ChatsInheritedNotifier.read(context).create(user, title);
     if (context.mounted) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ChatRoomScreen(
@@ -75,7 +75,11 @@ class _FriendListScreenState extends State<FriendListScreen> {
             (_, index) => switch (index) {
               0 => SearchTextField(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 16, bottom: 8),
+                    left: 24,
+                    right: 24,
+                    top: 16,
+                    bottom: 8,
+                  ),
                   placeholder: "검색할 친구 정보를 입력하세요.",
                   controller: textEditingController,
                 ),

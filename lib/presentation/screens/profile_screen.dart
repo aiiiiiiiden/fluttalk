@@ -1,6 +1,6 @@
-import 'package:fluttalk/business/inherited_notifier/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/common/common_text_field.dart';
 import 'package:fluttalk/presentation/components/common/custom_button.dart';
+import 'package:fluttalk/presentation/inherited/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttalk/gen/assets.gen.dart';
@@ -21,8 +21,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     _textEditingController.addListener(_onChangedName);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileModel = UserInheritedNotifier.read(context);
-      _textEditingController.text = profileModel.user?.displayName ?? "";
+      final userChangeNotifier = UserInheritedNotifier.read(context);
+      _textEditingController.text = userChangeNotifier.name;
       canSave = _textEditingController.text.isNotEmpty;
     });
   }

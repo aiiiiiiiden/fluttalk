@@ -19,14 +19,14 @@ class ChatChangeNotifier extends ChangeNotifier {
 
   static Future<ChatChangeNotifier> create(
     Chat chat,
-    FirebaseFunctionRepository service,
+    FirebaseFunctionRepository repository,
   ) async {
-    final messagesResponse = await service.getMessages(chat.id);
+    final messagesResponse = await repository.getMessages(chat.id);
     return ChatChangeNotifier._(
       chat: chat,
       messages: messagesResponse.messages,
       nextKey: messagesResponse.nextKey,
-      repository: service,
+      repository: repository,
     );
   }
 
@@ -34,23 +34,23 @@ class ChatChangeNotifier extends ChangeNotifier {
   bool get isLoading => _isLoading;
   Message get(int index) => messages.elementAt(messages.length - index - 1);
 
-  loadMore() async {
-    if (_isLoading == true || nextKey == null) {
+  Future<void> loadMore() async {
+    if (_isLoading || nextKey == null) {
       return;
     }
 
-    _isLoading = true;
-    final messagesResponse = await repository.getMessages(
-      chat.id,
-      startAt: nextKey,
-    );
-    messages = [
-      ...messages,
-      ...messagesResponse.messages,
-    ];
-    nextKey = messagesResponse.nextKey;
-    notifyListeners();
-    _isLoading = false;
+    try {
+      _isLoading = true;
+      final messagesResponse = await repository.getMessages(
+        chat.id,
+        startAt: nextKey,
+      );
+      messages.addAll(messagesResponse.messages);
+      nextKey = messagesResponse.nextKey;
+      notifyListeners();
+    } finally {
+      _isLoading = false;
+    }
   }
 
   sendMessage(String chatId, String content) async {

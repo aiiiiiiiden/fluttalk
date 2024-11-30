@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/change_notifier/chat_change_notifier.dart';
+import 'package:fluttalk/ambiguous/chat_change_notifier.dart';
 import 'package:fluttalk/data/chat.dart';
 import 'package:fluttalk/data/repository/firebase_function_repository.dart';
 import 'package:fluttalk/data/user.dart';
@@ -9,8 +9,7 @@ class ChatsChangeNotifier extends ChangeNotifier {
   bool _isLoaded = false;
   final FirebaseFunctionRepository repository;
   int get chatsCount => _chats.length;
-  bool get isNotExist => _chats.isEmpty;
-  bool get isLoaded => _isLoaded;
+  bool get isNotExist => _isLoaded && _chats.isEmpty;
 
   ChatsChangeNotifier({required this.repository});
 

@@ -1,5 +1,5 @@
-import 'package:fluttalk/business/inherited_notifier/chat_inherited_notifier.dart';
-import 'package:fluttalk/business/inherited_notifier/user_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/chat_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/chat_room/chat_message_balloon.dart';
 import 'package:fluttalk/presentation/components/chat_room/chat_room_sliver_app_bar.dart';
 import 'package:flutter/material.dart';

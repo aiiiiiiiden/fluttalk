@@ -1,4 +1,4 @@
-import 'package:fluttalk/business/inherited_notifier/friends_inherited_notifier.dart';
+import 'package:fluttalk/presentation/inherited/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/custom_sliver_header_delegate.dart';
 import 'package:fluttalk/presentation/components/common/custom_button.dart';
 import 'package:fluttalk/presentation/components/common/search_text_field.dart';
@@ -21,19 +21,20 @@ class _AddFriendBottomSheetState extends State<AddFriendBottomSheet> {
     final friendsChangeNotifier = FriendsInheritedNotifier.read(context);
     try {
       await friendsChangeNotifier.add(_textEditingController.text);
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
     } on DioException catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 2),
             content: Text(
-              '${e.response?.statusMessage} ${e.response?.statusCode ?? 500}',
+              '친구를 추가할 수 없습니다.(${e.response?.statusMessage} ${e.response?.statusCode ?? 500})',
             ),
           ),
         );
+      }
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pop();
       }
     }
   }

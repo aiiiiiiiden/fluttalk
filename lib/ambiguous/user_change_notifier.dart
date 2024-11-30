@@ -3,25 +3,24 @@ import 'package:fluttalk/data/user.dart';
 import 'package:flutter/material.dart';
 
 class UserChangeNotifier extends ChangeNotifier {
-  User? user;
+  User? _user;
   final FirebaseFunctionRepository repository;
-  UserChangeNotifier({
-    required this.repository,
-  });
 
-  String get email => user?.email ?? "";
-  String get name => user?.displayName ?? "";
-  String get uid => user?.uid ?? "";
+  UserChangeNotifier({required this.repository});
 
-  load() async {
+  String get email => _user?.email ?? "";
+  String get name => _user?.displayName ?? "";
+  String get uid => _user?.uid ?? "";
+
+  Future<void> load() async {
     final userResponse = await repository.getMe();
-    user = userResponse.user;
+    _user = userResponse.user;
     notifyListeners();
   }
 
-  update(String name) async {
+  Future<void> update(String name) async {
     final userResponse = await repository.updateMe(name);
-    user = userResponse.user;
+    _user = userResponse.user;
     notifyListeners();
   }
 }
