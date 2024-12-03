@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final functions = FirebaseFunctionRepository(
       dio: Dio(),
-      config: FirebaseFunctionsConfig(isLocal: true),
+      config: FirebaseFunctionsConfig(isLocal: false),
     );
 
     final firestore = FirebaseFirestoreRepository(
