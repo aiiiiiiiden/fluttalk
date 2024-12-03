@@ -1,4 +1,4 @@
-import 'package:fluttalk/model/message.dart';
+import 'package:fluttalk/data/message.dart';
 
 class Chat {
   String id;

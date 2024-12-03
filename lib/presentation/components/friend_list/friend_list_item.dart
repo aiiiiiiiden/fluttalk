@@ -1,5 +1,5 @@
 import 'package:fluttalk/common/utility.dart';
-import 'package:fluttalk/model/user.dart';
+import 'package:fluttalk/data/user.dart';
 import 'package:fluttalk/presentation/components/common/item_titles.dart';
 import 'package:fluttalk/presentation/components/common/profile_thumbnail.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';

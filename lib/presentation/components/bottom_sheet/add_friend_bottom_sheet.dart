@@ -1,10 +1,10 @@
-import 'package:dio/dio.dart';
+import 'package:fluttalk/presentation/inherited/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/custom_sliver_header_delegate.dart';
 import 'package:fluttalk/presentation/components/common/custom_button.dart';
 import 'package:fluttalk/presentation/components/common/search_text_field.dart';
-import 'package:fluttalk/presentation/notifiers/friends_model_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class AddFriendBottomSheet extends StatefulWidget {
@@ -15,25 +15,26 @@ class AddFriendBottomSheet extends StatefulWidget {
 }
 
 class _AddFriendBottomSheetState extends State<AddFriendBottomSheet> {
-  String email = '';
+  final _textEditingController = TextEditingController();
 
   _onAdd(BuildContext context) async {
-    final friendsModel = FriendsModelNotifier.read(context);
+    final friendsChangeNotifier = FriendsInheritedNotifier.read(context);
     try {
-      await friendsModel.add(email);
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
+      await friendsChangeNotifier.add(_textEditingController.text);
     } on DioException catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 2),
             content: Text(
-              '${e.response?.statusMessage} ${e.response?.statusCode ?? 500}',
+              '친구를 추가할 수 없습니다.(${e.response?.statusMessage} ${e.response?.statusCode ?? 500})',
             ),
           ),
         );
+      }
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pop();
       }
     }
   }
@@ -66,7 +67,7 @@ class _AddFriendBottomSheetState extends State<AddFriendBottomSheet> {
                     child: Center(
                       child: SearchTextField(
                         placeholder: '이메일 주소를 입력해주세요.',
-                        onChangedText: (text) => email = text,
+                        controller: _textEditingController,
                       ),
                     ),
                   ),

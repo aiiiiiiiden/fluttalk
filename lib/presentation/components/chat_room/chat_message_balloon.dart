@@ -1,21 +1,21 @@
-import 'dart:math';
+import 'package:fluttalk/data/message.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageBalloon extends StatelessWidget {
-  // final Message message;
-  // final User user;
+  final Message message;
   final bool isUsers;
   const ChatMessageBalloon({
     required this.isUsers,
+    required this.message,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Column(
         crossAxisAlignment:
             isUsers ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -34,7 +34,7 @@ class ChatMessageBalloon extends StatelessWidget {
               ),
             ),
             child: Text(
-              "일이삼사오육칠팔구십" * (Random().nextInt(20) + 1),
+              message.content,
               softWrap: true,
               style: MyTextStyles.bodyText2.copyWith(
                 color:

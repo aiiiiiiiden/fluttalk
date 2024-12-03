@@ -1,6 +1,6 @@
+import 'package:fluttalk/presentation/inherited/friends_inherited_notifier.dart';
 import 'package:fluttalk/presentation/components/bottom_sheet/custom_sliver_header_delegate.dart';
 import 'package:fluttalk/presentation/components/friend_list/friend_list_item.dart';
-import 'package:fluttalk/presentation/notifiers/friends_model_notifier.dart';
 import 'package:fluttalk/presentation/theme/my_colors.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ class SelectFriendBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsModel = FriendsModelNotifier.watch(context);
+    final friendsChangeNotifier = FriendsInheritedNotifier.watch(context);
     return CustomScrollView(
       slivers: [
         SliverPersistentHeader(
@@ -25,14 +25,14 @@ class SelectFriendBottomSheet extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            childCount: friendsModel.friendsCount,
+            childCount: friendsChangeNotifier.friendsCount,
             (_, index) => FriendListItem(
-              user: friendsModel.get(index),
+              user: friendsChangeNotifier.get(index),
               onTap: (user) => Navigator.of(context).pop(user),
             ),
           ),
         ),
-        if (friendsModel.isLoaded && friendsModel.isNotExist)
+        if (friendsChangeNotifier.isLoaded && friendsChangeNotifier.isNotExist)
           const SliverFillRemaining(
             child: Center(
               child: Text("친구가 없습니다"),
