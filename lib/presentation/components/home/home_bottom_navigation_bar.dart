@@ -1,4 +1,4 @@
-import 'package:fluttalk/presentation/components/home/bottom_navigation_items.dart';
+import 'package:fluttalk/presentation/components/home/home_bottom_navigation_items.dart';
 import 'package:fluttalk/presentation/theme/my_text_styles.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages

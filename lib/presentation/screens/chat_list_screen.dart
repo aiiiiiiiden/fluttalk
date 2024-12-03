@@ -1,4 +1,5 @@
 import 'package:fluttalk/data/chat.dart';
+import 'package:fluttalk/data/repository/firebase_firestore_repository.dart';
 import 'package:fluttalk/data/user.dart';
 import 'package:fluttalk/data/repository/firebase_function_repository.dart';
 import 'package:fluttalk/ambiguous/repositories_inherited_model.dart';
@@ -30,15 +31,19 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   _onSelect(BuildContext context, Chat chat) async {
-    final chatChangeNotifier = await ChatChangeNotifier.create(
-      chat,
-      RepositoriesInheritedModel.of<FirebaseFunctionRepository>(context),
-    );
     if (context.mounted) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) {
           return ChatRoomScreen(
-            chatChangeNotifier: chatChangeNotifier,
+            chatChangeNotifier: ChatChangeNotifier(
+              chat: chat,
+              functions:
+                  RepositoriesInheritedModel.of<FirebaseFunctionRepository>(
+                      context),
+              firestore:
+                  RepositoriesInheritedModel.of<FirebaseFirestoreRepository>(
+                      context),
+            ),
           );
         },
       ));

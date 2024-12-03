@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttalk/data/repository/firebase_firestore_repository.dart';
 import 'package:fluttalk/firebase_options.dart';
 import 'package:fluttalk/data/repository/firebase_function_config.dart';
 import 'package:fluttalk/data/repository/firebase_function_repository.dart';
@@ -29,19 +31,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseFunction = FirebaseFunctionRepository(
+    final functions = FirebaseFunctionRepository(
       dio: Dio(),
-      config: FirebaseFunctionsConfig(isLocal: false),
+      config: FirebaseFunctionsConfig(isLocal: true),
+    );
+
+    final firestore = FirebaseFirestoreRepository(
+      firestore: FirebaseFirestore.instance,
     );
 
     return RepositoriesInheritedModel(
-      repositories: [firebaseFunction],
+      repositories: [
+        functions,
+        firestore,
+      ],
       child: UserInheritedNotifier(
-        notifier: UserChangeNotifier(repository: firebaseFunction),
+        notifier: UserChangeNotifier(functions: functions),
         child: FriendsInheritedNotifier(
-          notifier: FriendsChangeNotifier(repository: firebaseFunction),
+          notifier: FriendsChangeNotifier(functions: functions),
           child: ChatsInheritedNotifier(
-            notifier: ChatsChangeNotifier(repository: firebaseFunction),
+            notifier: ChatsChangeNotifier(
+              functions: functions,
+              firestore: firestore,
+            ),
             child: MaterialApp(
               theme: MyTheme.light(),
               debugShowCheckedModeBanner: false,

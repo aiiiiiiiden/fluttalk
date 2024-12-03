@@ -1,4 +1,4 @@
-import 'package:fluttalk/presentation/components/home/bottom_navigation_items.dart';
+import 'package:fluttalk/presentation/components/home/home_bottom_navigation_items.dart';
 import 'package:fluttalk/presentation/components/home/home_bottom_navigation_bar.dart';
 import 'package:fluttalk/presentation/inherited/user_inherited_notifier.dart';
 import 'package:fluttalk/presentation/screens/friend_list_screen.dart';

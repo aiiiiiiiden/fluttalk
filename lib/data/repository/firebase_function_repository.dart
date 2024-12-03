@@ -105,4 +105,16 @@ class FirebaseFunctionRepository implements Repository {
     );
     return MessagesResponse.fromJson(response.data);
   }
+
+  Future<MessagesResponse> getNewMessages({
+    required String chatId,
+    required int lastNewestSentAt,
+  }) async {
+    final response = await dio.get(
+      config.getUrl(FirebaseFunctions.getNewMessages),
+      options: await _getOptions(),
+      queryParameters: {"chatId": chatId, "lastNewestSentAt": lastNewestSentAt},
+    );
+    return MessagesResponse.fromJson(response.data);
+  }
 }

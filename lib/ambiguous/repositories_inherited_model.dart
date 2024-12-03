@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class RepositoriesInheritedModel extends InheritedModel<Repository> {
   final List<Repository> repositories;
+
   const RepositoriesInheritedModel({
     super.key,
     required this.repositories,
     required super.child,
   });
+
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     return (oldWidget is RepositoriesInheritedModel &&
