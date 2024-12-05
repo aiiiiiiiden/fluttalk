@@ -21,8 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileModel = UserInheritedNotifier.read(context);
-      profileModel.load();
+      final userChangeNotifier = UserInheritedNotifier.read(context);
+      userChangeNotifier.load();
+      userChangeNotifier.registerPushToken();
     });
   }
 

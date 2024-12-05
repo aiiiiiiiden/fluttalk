@@ -11,7 +11,7 @@ class MoreUserItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileModel = UserInheritedNotifier.watch(context);
+    final userChangeNotifier = UserInheritedNotifier.watch(context);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -37,8 +37,8 @@ class MoreUserItem extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             ItemTitles(
-              main: profileModel.email,
-              sub: profileModel.name,
+              main: userChangeNotifier.email,
+              sub: userChangeNotifier.name,
             ),
             const SizedBox(width: 6),
             InkWell(

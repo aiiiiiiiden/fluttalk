@@ -40,8 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _save(BuildContext context) async {
-    final profileModel = UserInheritedNotifier.read(context);
-    await profileModel.update(_textEditingController.text);
+    await UserInheritedNotifier.read(context).update(_textEditingController.text);
     if (context.mounted) {
       Navigator.of(context).pop();
     }

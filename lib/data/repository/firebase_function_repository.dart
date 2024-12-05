@@ -117,4 +117,12 @@ class FirebaseFunctionRepository implements Repository {
     );
     return MessagesResponse.fromJson(response.data);
   }
+
+  Future<void> registerPushToken({required String pushToken}) async {
+    await dio.post(
+      config.getUrl(FirebaseFunctions.registerPushToken),
+      options: await _getOptions(),
+      data: {"pushToken": pushToken},
+    );
+  }
 }

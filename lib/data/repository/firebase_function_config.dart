@@ -22,6 +22,7 @@ enum FirebaseFunctions {
   sendMessage,
   getMessages,
   getNewMessages,
+  registerPushToken,
 }
 
 class FirebaseFunctionsConfig {
@@ -76,7 +77,10 @@ class FirebaseFunctionsConfig {
         FirebaseFunctions.getNewMessages => FirebaseFunctionUrl(
             local: "$baseUrl/fluttalk/us-central1/getNewMessages",
             prod: "https://getnewmessages$baseUrl",
-            // https://getnewmessages-cwpwobd65q-uc.a.run.app
+          ).getUrl(isLocal),
+        FirebaseFunctions.registerPushToken => FirebaseFunctionUrl(
+            local: "$baseUrl/fluttalk/us-central1/registerPushToken",
+            prod: "https://registerpushtoken$baseUrl",
           ).getUrl(isLocal),
       };
 }
