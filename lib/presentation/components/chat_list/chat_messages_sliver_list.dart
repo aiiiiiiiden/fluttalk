@@ -9,7 +9,7 @@ class ChatMessagesSliverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatChangeNotifier = ChatInheritedNotifier.watch(context);
-    final profileModel = UserInheritedNotifier.read(context);
+    final userChangeNotifier = UserInheritedNotifier.read(context);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         childCount: chatChangeNotifier.count,
@@ -19,7 +19,7 @@ class ChatMessagesSliverList extends StatelessWidget {
             return ChatMessageBalloon(
               key: ValueKey(message.sentAt),
               message: message,
-              isUsers: message.isUsers(profileModel.uid),
+              isUsers: message.isUsers(userChangeNotifier.uid),
             );
           } else {
             return const SizedBox();
