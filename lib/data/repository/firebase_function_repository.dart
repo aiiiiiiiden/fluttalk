@@ -64,7 +64,7 @@ class FirebaseFunctionRepository implements Repository {
 
   Future<ChatResponse> createChat(String email, String title) async {
     final response = await dio.post(
-      config.getUrl(FirebaseFunctions.createChat),
+      config.getUrl(FirebaseFunctions.postChat),
       options: await _getOptions(),
       data: {"email": email, "title": title},
     );
@@ -81,7 +81,7 @@ class FirebaseFunctionRepository implements Repository {
 
   Future<UserResponse> updateMe(String name) async {
     final response = await dio.post(
-      config.getUrl(FirebaseFunctions.updateMe),
+      config.getUrl(FirebaseFunctions.postMe),
       options: await _getOptions(),
       data: {"name": name},
     );
@@ -101,7 +101,10 @@ class FirebaseFunctionRepository implements Repository {
     final response = await dio.get(
       config.getUrl(FirebaseFunctions.getMessages),
       options: await _getOptions(),
-      queryParameters: {"chatId": chatId, "startAt": startAt},
+      queryParameters: {
+        "chatId": chatId,
+        if (startAt != null) "startAt": startAt
+      },
     );
     return MessagesResponse.fromJson(response.data);
   }
@@ -111,7 +114,7 @@ class FirebaseFunctionRepository implements Repository {
     required int lastNewestSentAt,
   }) async {
     final response = await dio.get(
-      config.getUrl(FirebaseFunctions.getNewMessages),
+      config.getUrl(FirebaseFunctions.getLatestMessages),
       options: await _getOptions(),
       queryParameters: {"chatId": chatId, "lastNewestSentAt": lastNewestSentAt},
     );
@@ -120,7 +123,7 @@ class FirebaseFunctionRepository implements Repository {
 
   Future<void> registerPushToken({required String pushToken}) async {
     await dio.post(
-      config.getUrl(FirebaseFunctions.registerPushToken),
+      config.getUrl(FirebaseFunctions.postPushToken),
       options: await _getOptions(),
       data: {"pushToken": pushToken},
     );

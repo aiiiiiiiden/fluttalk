@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttalk/ambiguous/dio_interceptors.dart';
 import 'package:fluttalk/data/repository/firebase_firestore_repository.dart';
 import 'package:fluttalk/firebase_options.dart';
 import 'package:fluttalk/data/repository/firebase_function_config.dart';
@@ -31,9 +32,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+    dio.interceptors.add(AuthInterceptor());
     final functions = FirebaseFunctionRepository(
-      dio: Dio(),
-      config: FirebaseFunctionsConfig(isLocal: false),
+      dio: dio,
+      config: FirebaseFunctionsConfig(isLocal: true),
     );
 
     final firestore = FirebaseFirestoreRepository(
