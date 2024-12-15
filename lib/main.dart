@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     dio.interceptors.add(AuthInterceptor());
     final functions = FirebaseFunctionRepository(
       dio: dio,
-      config: FirebaseFunctionsConfig(isLocal: true),
+      config: FirebaseFunctionsConfig(isLocal: false),
     );
 
     final firestore = FirebaseFirestoreRepository(

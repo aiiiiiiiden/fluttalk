@@ -29,10 +29,8 @@ class FirebaseFunctionsConfig {
   String getUrl(FirebaseFunctions type) => switch (type) {
         FirebaseFunctions.getMe => "${baseUrl(isLocal)}/users/me",
         FirebaseFunctions.postMe => "${baseUrl(isLocal)}/users/me",
-        FirebaseFunctions.addFriendsByEmail =>
-          "${baseUrl(isLocal)}/friends/add",
-        FirebaseFunctions.removeFriendByEmail =>
-          "${baseUrl(isLocal)}/friends/remove",
+        FirebaseFunctions.addFriendsByEmail => "${baseUrl(isLocal)}/friends",
+        FirebaseFunctions.removeFriendByEmail => "${baseUrl(isLocal)}/friends",
         FirebaseFunctions.getFriends => "${baseUrl(isLocal)}/friends",
         FirebaseFunctions.getChats => "${baseUrl(isLocal)}/chats",
         FirebaseFunctions.postChat => "${baseUrl(isLocal)}/chats",
