@@ -37,7 +37,7 @@ class FirebaseFunctionRepository implements Repository {
   }
 
   Future<UserResponse> removeFriendByEmail(String email) async {
-    final response = await dio.post(
+    final response = await dio.delete(
       config.getUrl(FirebaseFunctions.removeFriendByEmail),
       options: await _getOptions(),
       data: {"email": email},
